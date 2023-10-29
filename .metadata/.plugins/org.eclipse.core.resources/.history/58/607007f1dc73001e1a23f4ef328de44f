@@ -1,0 +1,5 @@
+package com.aridane.employee.entity.dao;
+
+public interface IEmploymentInformation {
+
+}

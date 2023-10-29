@@ -1,0 +1,49 @@
+package com.aridane.employee.entity.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.aridane.employee.entity.models.Employee;
+import com.aridane.employee.entity.services.IEmployeeService;
+
+@RestController
+@CrossOrigin(origins="*")
+public class EmployeeController {
+	@Autowired
+	IEmployeeService employeeService;
+	
+	@GetMapping("/api/employees")
+	public List<Employee> getAllEmployee(){
+		return employeeService.getAll();
+	}
+	
+	@GetMapping("/api/employees/{id}")
+	public Employee getOneEmployee(@PathVariable(value="id")long id){
+		return employeeService.get(id);
+	}
+	
+	@PostMapping("/api/employees")
+	public void post(@RequestBody Employee employee) {
+		employeeService.post(employee);
+	}
+	
+	@PutMapping("/api/employees/{id}")
+	public void put(@PathVariable(value="id") long id,@RequestBody Employee employee) {
+		employeeService.put(id,employee);
+	}
+	
+	@DeleteMapping("/api/employees/{id}")
+	public void put(@PathVariable(value="id") long id) {
+		System.out.println(id);
+		employeeService.deleteOne(id);
+	}
+}

@@ -1,0 +1,9 @@
+package com.aridane.employee.entity.dao;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.aridane.employee.entity.models.PersonalInformation;
+
+public interface IPersonalInfo extends CrudRepository<PersonalInformation, Long> {
+
+}

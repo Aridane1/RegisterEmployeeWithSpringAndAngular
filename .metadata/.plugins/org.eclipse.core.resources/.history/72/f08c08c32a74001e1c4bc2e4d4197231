@@ -1,0 +1,50 @@
+package com.aridane.employee.entity.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.aridane.employee.entity.models.EmploymentInformation;
+import com.aridane.employee.entity.services.IEmploymentInformartionService;
+
+@RestController
+@CrossOrigin(origins="*")
+public class EmploymentInfoController {
+	
+	@Autowired
+	IEmploymentInformartionService employmentService;
+	
+	@GetMapping("/api/employments_info/{id}")
+	public EmploymentInformation getOneEmploymentInfo(@PathVariable(value="id") long id){
+		return employmentService.getOne(id);
+	}
+	
+	@GetMapping("/api/employments_info")
+	public List<EmploymentInformation> getAll(){
+		return employmentService.getAll();
+	}
+	
+	@PostMapping("/api/employments_info")
+	public void post( EmploymentInformation employmentInformation) {
+		System.out.println(employmentInformation.getEmployee());
+		//employmentService.post(employmentInformation);
+	}
+	
+	@PutMapping("/api/employments_info")
+	public void put(EmploymentInformation employmentInformation) {
+		employmentService.put(employmentInformation);
+	}
+	
+	@DeleteMapping("/api/employments_info/{id}")
+	public void delete(@PathVariable(value="id") long id) {
+		employmentService.delete(id);
+	}
+}

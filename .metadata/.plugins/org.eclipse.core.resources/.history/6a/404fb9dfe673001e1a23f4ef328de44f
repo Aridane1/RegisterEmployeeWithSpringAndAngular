@@ -1,0 +1,8 @@
+package com.aridane.employee.entity.controllers;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class EmploymentInfoController {
+
+}

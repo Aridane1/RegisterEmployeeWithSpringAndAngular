@@ -1,0 +1,5 @@
+package com.aridane.employee.entity.services;
+
+public interface IPersonalInformationService {
+
+}

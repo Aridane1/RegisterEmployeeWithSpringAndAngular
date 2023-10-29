@@ -1,0 +1,71 @@
+package com.aridane.employee.entity.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.aridane.employee.entity.dao.IEmployeeDao;
+import com.aridane.employee.entity.dao.IEmploymentInformationDao;
+import com.aridane.employee.entity.models.EmploymentInformation;
+
+@Service
+public class EmploymentInformationServiceImpl implements IEmploymentInformartionService{
+
+	@Autowired
+	private IEmploymentInformationDao employmentInfoDao;
+	
+	@Autowired
+	private IEmployeeDao employeeDao;
+	
+	@Override
+	public EmploymentInformation getOne(long id) {
+		// TODO Auto-generated method stub
+		return employmentInfoDao.findById(id).get();
+	}
+
+	@Override
+	public List<EmploymentInformation> getAll() {
+		// TODO Auto-generated method stub
+		return (List<EmploymentInformation>) employmentInfoDao.findAll();
+	}
+
+	@Override
+	public void post(EmploymentInformation employmentInfo) {
+		// TODO Auto-generated method stub
+		System.out.println(employmentInfo.getBooth());
+		//employmentInfoDao.save(employmentInfo);
+	}
+
+	@Override
+	public void put(EmploymentInformation employmentInfo) {
+		// TODO Auto-generated method stub
+		EmploymentInformation id = employmentInfoDao.findEmploymentInformationByEmployeeId(employmentInfo.getEmployee().getId());
+		
+		EmploymentInformation modifyEmploymentInfo = new EmploymentInformation();
+		employeeDao.findById(id.getEmployee().getId()).ifPresent((x)->{
+			
+			modifyEmploymentInfo.setId(id.getId());
+			modifyEmploymentInfo.setEmployee(id.getEmployee());
+			if(employmentInfo.getSalary() == null || employmentInfo.getSalary() == "") {
+				modifyEmploymentInfo.setSalary(id.getSalary());
+			}else {
+				modifyEmploymentInfo.setSalary(employmentInfo.getSalary());
+			}
+			if(employmentInfo.getBooth() == null || employmentInfo.getBooth() == "") {
+				modifyEmploymentInfo.setBooth(id.getBooth());
+			}else {
+				modifyEmploymentInfo.setBooth(employmentInfo.getBooth());
+			}
+			
+			employmentInfoDao.save(modifyEmploymentInfo);
+		});
+	}
+
+	@Override
+	public void delete(long id) {
+		// TODO Auto-generated method stub
+		employmentInfoDao.deleteById(id);
+	}
+
+}

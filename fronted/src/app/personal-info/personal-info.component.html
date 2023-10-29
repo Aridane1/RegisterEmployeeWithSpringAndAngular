@@ -1,0 +1,36 @@
+<div class="main-container">
+  <div class="form-main-container">
+    <form [formGroup]="personalInfoForm">
+      <label for="id"> Id empleado: </label>
+      <input type="text" formControlName="id" id="id" />
+      <label for="phone"> Tlf: </label>
+      <input type="text" formControlName="phone" id="phone" />
+      <label for="direction"> Direccion: </label>
+      <input type="text" formControlName="direction" id="direction" />
+      <button *ngIf="!selector" (click)="addPersonalInfo()">Añadir</button>
+      <button *ngIf="selector" (click)="updatePersonal()">Actualizar</button>
+      <button *ngIf="selector" (click)="cancelUpdate()">Cancelar</button>
+    </form>
+  </div>
+
+  <div class="show-data-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tlf</th>
+          <th>Direccion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let personalInfo of personalsInfo">
+          <td>{{ personalInfo.id }}</td>
+          <td>{{ personalInfo.phone }}</td>
+          <td>{{ personalInfo.direction }}</td>
+          <button (click)="deletePersonalInfo(personalInfo)">delete</button>
+          <button (click)="putPersonalInfoInForm(personalInfo)">update</button>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

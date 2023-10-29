@@ -1,0 +1,75 @@
+package com.aridane.employee.entity.models;
+
+import java.io.Serializable;
+
+import jakarta.persistence.Entity;
+
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="employment_info")
+public class EmploymentInformation implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	
+	private long id;
+	
+	@OneToOne
+	@MapsId
+    @JoinColumn(name = "id")
+    private Employee employee;
+	
+	private String booth;
+	
+	private String salary;
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public String getBooth() {
+		return booth;
+	}
+
+	public void setBooth(String booth) {
+		this.booth = booth;
+	}
+
+	public String getSalary() {
+		return salary;
+	}
+
+	public void setSalary(String salary) {
+		this.salary = salary;
+	}
+
+	public EmploymentInformation(Employee employee, String booth, String salary) {
+		super();
+		this.employee = employee;
+		this.booth = booth;
+		this.salary = salary;
+	}
+	
+	public EmploymentInformation() {
+
+	}
+
+}
