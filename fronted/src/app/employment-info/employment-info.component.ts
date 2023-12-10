@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmploymentInfoService } from '../services/employment-info.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-employment-info',
@@ -37,6 +38,16 @@ export class EmploymentInfoComponent implements OnInit {
     const salary = this.employmentInfoForm.get('salary')?.value;
     const booth = this.employmentInfoForm.get('booth')?.value;
 
+    let existInfo = this.employmentsInfo.some((data: any) => data.id == id);
+
+    if (existInfo) {
+      Swal.fire({
+        icon: 'error',
+        title: `Ya información asociada a ese empleado con id ${id}`,
+      });
+      this.employmentInfoForm.reset();
+      return;
+    }
     this.employmentInfoService
       .addEmploymentInfo({
         id: id,
@@ -45,9 +56,7 @@ export class EmploymentInfoComponent implements OnInit {
       })
       .subscribe((data) => {
         this.getAllEmploymentInfo();
-        this.employmentInfoForm.get('id')?.setValue('');
-        this.employmentInfoForm.get('salary')?.setValue('');
-        this.employmentInfoForm.get('booth')?.setValue('');
+        this.employmentInfoForm.reset();
       });
   }
 
@@ -63,19 +72,18 @@ export class EmploymentInfoComponent implements OnInit {
       })
       .subscribe((data) => {
         this.getAllEmploymentInfo();
-        this.employmentInfoForm.get('id')?.setValue('');
-        this.employmentInfoForm.get('salary')?.setValue('');
-        this.employmentInfoForm.get('booth')?.setValue('');
-
+        this.employmentInfoForm.reset();
         this.selector = false;
       });
   }
+
   cancelUpdate() {
     this.employmentInfoForm.get('id')?.setValue('');
     this.employmentInfoForm.get('salary')?.setValue('');
     this.employmentInfoForm.get('booth')?.setValue('');
     this.selector = false;
   }
+
   deleteEmploymentInfo(employmentInfo: any) {
     this.employmentInfoService
       .deleteOneEmployment(employmentInfo.id)

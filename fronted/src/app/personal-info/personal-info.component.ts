@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalInfoService } from '../services/personal-info.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-personal-info',
@@ -37,6 +38,16 @@ export class PersonalInfoComponent {
     const direction = this.personalInfoForm.get('direction')?.value;
     const phone = this.personalInfoForm.get('phone')?.value;
 
+    let existInfo = this.personalsInfo.some((data: any) => data.id == id);
+
+    if (existInfo) {
+      Swal.fire({
+        icon: 'error',
+        title: `Ya información asociada a ese empleado con id ${id}`,
+      });
+      this.personalInfoForm.reset();
+      return;
+    }
     this.personalInfoService
       .addPersonalInfo({
         id: id,
@@ -63,17 +74,14 @@ export class PersonalInfoComponent {
       })
       .subscribe((data) => {
         this.getAllPersonalInfo();
-        this.personalInfoForm.get('id')?.setValue('');
-        this.personalInfoForm.get('direction')?.setValue('');
-        this.personalInfoForm.get('phone')?.setValue('');
+        this.personalInfoForm.reset();
 
         this.selector = false;
       });
   }
   cancelUpdate() {
-    this.personalInfoForm.get('id')?.setValue('');
-    this.personalInfoForm.get('direction')?.setValue('');
-    this.personalInfoForm.get('phone')?.setValue('');
+    this.personalInfoForm.reset();
+
     this.selector = false;
   }
   deletePersonalInfo(employmentInfo: any) {
@@ -85,9 +93,6 @@ export class PersonalInfoComponent {
   }
 
   putPersonalInfoInForm(employmentInfo: any) {
-    this.personalInfoForm.get('id')?.setValue(employmentInfo.id);
-    this.personalInfoForm.get('direction')?.setValue(employmentInfo.direction);
-    this.personalInfoForm.get('phone')?.setValue(employmentInfo.phone);
     this.selector = true;
   }
 }
