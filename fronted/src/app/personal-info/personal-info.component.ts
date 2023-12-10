@@ -93,6 +93,9 @@ export class PersonalInfoComponent {
   }
 
   putPersonalInfoInForm(employmentInfo: any) {
+    this.personalInfoForm.get('id')?.setValue(employmentInfo.id);
+    this.personalInfoForm.get('direction')?.setValue(employmentInfo.direction);
+    this.personalInfoForm.get('phone')?.setValue(employmentInfo.phone);
     this.selector = true;
   }
 }
